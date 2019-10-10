@@ -281,26 +281,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
         }
       }
-        if((yMovement == 1)&&(startY > landingY)&&(xMovement == 1)){ // King can move 1 square diagonally
-          if(piecePresent(e.getX(),e.getY())){
-            if(pieceName.contains("White")){
-              if(checkWhiteOponent(e.getX(),e.getY())){
-                validMove = true;
-              }
-              else{
-                validMove=false;
-              }
-            }
-            else{
-              if(checkBlackOponent(e.getX(),e.getY())){
-                validMove = true;
-              }
-              else{
-                validMove = false;
-              }
-            }
-          }
-        }
     }
 
     else if(pieceName.contains("Queen")){
