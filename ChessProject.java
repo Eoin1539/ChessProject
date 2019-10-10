@@ -555,7 +555,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
             if((!piecePresent(e.getX(), e.getY()))&&(!piecePresent(e.getX(), (e.getY()/75)))){//Pawn can't jump over or land on a piece
               validMove = true;
             }
-          }kjkj
+          }
           else{
             if(!piecePresent(e.getX(), e.getY())){
 
