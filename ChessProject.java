@@ -641,7 +641,9 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         }
         else if((yMovement == 1)&&(startY > landingY)&&(xMovement == 1)){ // Pawn can move 1 square diagonally
           if(piecePresent(e.getX(), e.getY())){ //If piece is present at mouse release then valid move true
-              validMove = true;
+              if(checkBlackOponent(e.getX(), e.getY())){
+                validMove = true;
+              }
               if(landingY == 0){
 							 progression = true;
 							}
