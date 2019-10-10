@@ -127,11 +127,17 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	*/
 	private Boolean checkWhiteOponent(int newX, int newY){
 		Boolean oponent;
+    Boolean whitewin=false;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
 		String tmp1 = awaitingPiece.getIcon().toString();
 		if(((tmp1.contains("Black")))){
 			oponent = true;
+      System.out.println("Took "+tmp1.substring(0, (tmp1.length()-4)));
+      if(tmp1.contains("King")){
+      JOptionPane.showMessageDialog(null, "White wins!");
+       whitewin=true;
+      }
 		}
 		else{
 			oponent = false;
@@ -141,16 +147,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 //This is to check if a piece is a white piece
   private Boolean checkBlackOponent(int newX, int newY){
 		Boolean oponent;
+    Boolean blackwin;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
 		String tmp1 = awaitingPiece.getIcon().toString();
 		if(((tmp1.contains("White")))){
 			oponent = true;
+      System.out.println("Took "+tmp1.substring(0, (tmp1.length()-4)));
+      if(tmp1.contains("King")){
+      JOptionPane.showMessageDialog(null, "Black wins!");
+       blackwin=true;
+      }
 		}
 		else{
 			oponent = false;
+      blackwin=false;
 		}
 		return oponent;
+
 	}
 
 	/*
@@ -202,13 +216,13 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     int landingY = (e.getY()/75);
     int xMovement = Math.abs((e.getX()/75)-startX);
     int yMovement= Math.abs((e.getY()/75)-startY);
-    System.out.println("------------------------------");
+    System.out.println("--------------------------------------------------------");
     System.out.println("The piece that is being moved is : "+pieceName);
     System.out.println("The starting coordinates are : "+"( "+startX+","+startY+")");
     System.out.println("The xMovement is : "+xMovement);
     System.out.println("The yMovement is : "+yMovement);
     System.out.println("The landing coordinates are : "+"( "+landingX+","+landingY+")");
-    System.out.println("------------------------------");
+    System.out.println("--------------------------------------------------------");
 
 
      if(pieceName.contains("Knight")){
@@ -702,11 +716,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
       if(progression){
         int location = 0 + (e.getX()/75);
         if (c instanceof JLabel){
-	            	Container parent = c.getParent();
-	            	parent.remove(0);
-					pieces = new JLabel( new ImageIcon("BlackQueen.png") );
-					parent = (JPanel)chessBoard.getComponent(location);
-			    	parent.add(pieces);
+	         Container parent = c.getParent();
+	         parent.remove(0);
+					 pieces = new JLabel( new ImageIcon("BlackQueen.png") );
+				   parent = (JPanel)chessBoard.getComponent(location);
+			     parent.add(pieces);
 				}
 				else{
 					Container parent = (Container)c;
@@ -762,7 +776,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     }
 
 	/*
-		Main method that gets the ball moving.
+		Main method
 	*/
     public static void main(String[] args) {
         JFrame frame = new ChessProject();
