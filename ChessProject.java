@@ -18,6 +18,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	JLabel pieces;
   Boolean Blackmove=false;
   Boolean Whitemove=true;
+  Boolean Whitewin=false;
+  Boolean Blackwin=false;
 
 
 
@@ -130,7 +132,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	*/
 	private Boolean checkWhiteOponent(int newX, int newY){
 		Boolean oponent;
-    Boolean whitewin=false;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
 		String tmp1 = awaitingPiece.getIcon().toString();
@@ -139,7 +140,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
       System.out.println("Took "+tmp1.substring(0, (tmp1.length()-4)));//Outputs what piece was taken
       if(tmp1.contains("King")){//Checks if piece taken was King
       JOptionPane.showMessageDialog(null, "White wins!");//Outputs win message
-       whitewin=true;
+      Whitewin=true;
       }
 		}
 		else{
@@ -150,7 +151,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 //This is to check if a piece is a white piece
   private Boolean checkBlackOponent(int newX, int newY){
 		Boolean oponent;
-    Boolean blackwin;
+
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
 		String tmp1 = awaitingPiece.getIcon().toString();
@@ -159,12 +160,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
       System.out.println("Took "+tmp1.substring(0, (tmp1.length()-4)));
       if(tmp1.contains("King")){
       JOptionPane.showMessageDialog(null, "Black wins!");
-       blackwin=true;
+      Blackwin=true;
       }
 		}
 		else{
 			oponent = false;
-      blackwin=false;
 		}
 		return oponent;
 
@@ -198,18 +198,15 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          chessPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
      }
 
- 	/*
-		This method is used when the Mouse is released...we need to make sure the move was valid before
-		putting the piece back on the board.
-	*/
+
 
   public void switchTurn(){
-    if(Blackmove){
+    if(Blackmove&&(Blackwin==false&&Whitewin==false)){
       Blackmove=false;
       Whitemove=true;
       System.out.println("White turn");
     }
-    else if(Whitemove){
+    else if(Whitemove&&(Blackwin==false&&Whitewin==false)){
       Whitemove=false;
       Blackmove=true;
       System.out.println("Black turn");
@@ -243,10 +240,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
 
 
+
     if((Blackmove&&pieceName.contains("White"))||(Whitemove&&pieceName.contains("Black"))){
       validMove=false;
 
     }
+
+    else if(Whitewin){
+      validMove=false;
+      Whitemove=false;
+      System.out.println("Gameover! White has won!");
+    }
+
+    else if(Blackwin){
+      validMove=false;
+      Blackmove=false;
+      System.out.println("Gameover! Black has won!");
+    }
+
     else{
      if(pieceName.contains("Knight")){
       if(((landingX < 0)|| (landingX>7))||((landingY<0)||landingY>7)){
@@ -579,7 +590,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
       }
       else{
         validMove=true;
-        switchTurn();
         if(Math.abs(startX-landingX)==Math.abs(startY-landingY)){
           if((startX-landingX <0)&&(startY-landingY<0)){
             for(int i=0; i<distance;i++){
